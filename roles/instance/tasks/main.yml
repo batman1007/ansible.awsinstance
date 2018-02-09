@@ -1,0 +1,24 @@
+---
+
+- name: Create ec2 Instance
+  ec2:
+    aws_access_key: "{{aws_access_key}}"
+    aws_secret_key: "{{aws_secret_key}}"
+    key_name: proxy
+    instance_type: t2.micro
+    image: ami-02ace471
+    wait: yes
+    region: eu-west-1
+    instance_tags:
+      Name: "redhat-{{ shortname }}{{ item }}"
+      Group: "{{ server_type }}"
+      Environment: "{{ env }}"
+    exact_count: 1
+    count_tag:
+      Name: "redhat-{{ item }}"
+      Group: "{{ server_type }}"
+      Environment: "{{ env }}"
+    group: proxy
+    vpc_subnet_id: subnet-7cb6cc19
+    assign_public_ip: yes
+  with_sequence: start=1 count=4 format="%02d"

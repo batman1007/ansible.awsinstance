@@ -1,0 +1,11 @@
+---
+
+- name: Lets cook
+  hosts: local
+  connection: local
+  gather_facts: false
+  pre_tasks:
+  - include_vars: "group_vars/{{ server_type }}.yml"
+  
+  roles:
+  - instance 
